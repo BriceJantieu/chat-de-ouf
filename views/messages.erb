@@ -19,7 +19,7 @@ body{
   font-family: Arial;
   font-size: 12px;
 }
-.login{
+.chat{
   position: absolute;
   top:5%;
   left: 15%;
@@ -87,8 +87,8 @@ body{
   top: 2%;
 }
 .formulaire input[type=text]{
-  width:70%;
-  height: 100%;
+  width:89%;
+  height: 70%;
   top:50%;
   border:1px 
   solid #ccc;
@@ -97,16 +97,28 @@ body{
   background: rgba(255,255,255,1);
   
 }
+
+.formulaire input[type=submit]{
+  width:10%;
+  height: 70%;
+  top:50%;
+  border:1px 
+  solid #ccc;
+  font:16px/26px Georgia, Garamond, Serif;
+  overflow:auto;
+  background: rgba(255,255,255,1);
+  display: inline-block;
+}
 .header div span{
   color: #5379fa !important;
 }
 
 ::-webkit-input-placeholder{
-   color: rgba(255,255,255,0.6);
+   color: rgba(0,0,0,0.6);
 }
 
 ::-moz-input-placeholder{
-   color: rgba(255,255,255,0.6);
+   color: rgba(0,0,0,0.6);
 }
 </style>
     </script>
@@ -129,7 +141,7 @@ body{
 
   </div>
     <div class="grad"></div>
-  <div class="login">
+  <div class="chat">
     <div class="messages" style="">
        <table>
         <% messages.each do |msg| %>
@@ -143,8 +155,8 @@ body{
     </div>
     <div class="formulaire">
       <form method="post" action="/messages">
-        <input type="text"  name='message' placeholder='type message here...' />
-        <input type='submit' value="GO!"  />
+        <input type="text"  name='message' placeholder='message here...' />
+        <input type='submit' value="Send"  />
       </form>
     </div>
     </div>

@@ -2,6 +2,7 @@ require 'sinatra'
 require 'mongo'
 require 'rubygems'
 require "sinatra/streaming"
+require 'date'
 
 include Mongo
 
@@ -13,6 +14,14 @@ include Mongo
  	set :db, db
   set :list, []
 end
+
+def formatDate(aDate)
+ 
+  date = DateTime.parse(aDate)
+  return date.strftime("%D") + " a " + date.strftime("%R")
+ 
+ end
+
 
 post '/createaccount' do
   puts "user test"
@@ -79,13 +88,15 @@ get '/' do
 end
 
 get '/createaccount' do
-	erb :createaccount
+	redirect to('/createaccount')
 end
 
 
 get '/messages' do 
   dbmessages = settings.db.collection("messages")
   affichage = []
-  dbmessages.find.each {|message| affichage << message}
+  dbmessages.find.each {|message| 
+    message["datetime"] = formatDate(message["datetime"])
+    affichage << message}
   erb :messages, :locals => {:messages => affichage}
 end
