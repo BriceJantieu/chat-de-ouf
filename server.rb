@@ -88,7 +88,7 @@ get '/' do
 end
 
 get '/createaccount' do
-	redirect to('/createaccount')
+	erb :createaccount
 end
 
 
