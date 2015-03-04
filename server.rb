@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'mongo'
 require 'rubygems'
-require "sinatra/streaming"
 require 'date'
 
 include Mongo
