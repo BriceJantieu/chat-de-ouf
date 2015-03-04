@@ -39,20 +39,26 @@ end
 
 post '/messages' do
   puts session[:user_id]
-  if (session[:user_id] != nil && session[:user_id] != "")
+  if (session[:name] != nil && session[:user_id] != "")
      messages = settings.db.collection("messages")
      messageToInsert = {"content" => params[:message], "datetime" => DateTime.now.to_s, "author_id" => session[:user_id], "name"=> session[:name]}
      message = messages.insert(messageToInsert)
      affichage = "" 
      settings.connections.each { |out| out << "data: #{params[:message]}\n\n" }
      204
+     redirect to('/messages')
   else
     redirect to('/')
   end
-
- 
 end
 
+post '/logout' do
+  puts "deco"
+  session[:user_id] = nil
+  session[:name] = nil
+  redirect to('/')
+
+ end
 #get '/stream', provides: 'text/event-stream' do
  # stream :keep_open do |out|
   #  i = 0
@@ -70,9 +76,12 @@ post '/' do
   coll = settings.db.collection("users")
   user = coll.find_one("name" => params[:name], "password" => params[:password])
   if (user != nil)
+    puts user
     session[:name] = user["name"]
     session[:user_id] = user["_id"]
     redirect to('/messages')
+  else
+    redirect to('/')
   end
 end
 

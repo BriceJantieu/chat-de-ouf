@@ -97,6 +97,19 @@ body{
   background: rgba(255,255,255,1);
   
 }
+.btdeco{
+  position: absolute;
+  top:1%;
+  right: 5%;
+  padding: 10px;
+  z-index: 2;
+  width:10%;
+  height: 4%;
+  border:1px 
+  solid #ccc;
+  overflow:auto;
+  background: rgba(255,255,255,1);
+}
 
 .formulaire input[type=submit]{
   width:10%;
@@ -140,8 +153,13 @@ body{
   <div class="body">
 
   </div>
-    <div class="grad"></div>
+    <div class="grad">
+    </div>
+    <form method="post" action="/logout">
+        <input type='submit' value="Logout" class="btdeco"  />
+      </form>
   <div class="chat">
+     
     <div class="messages" style="">
        <table>
         <% messages.each do |msg| %>
@@ -158,6 +176,7 @@ body{
         <input type="text"  name='message' placeholder='message here...' />
         <input type='submit' value="Send"  />
       </form>
+     
     </div>
     </div>
     
