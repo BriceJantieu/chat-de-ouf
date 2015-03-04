@@ -6,7 +6,7 @@ require "sinatra/streaming"
 include Mongo
 
   set server: 'thin', connections: []
-configure do
+  configure do
   enable :sessions
 	db = MongoClient.new("ds041861.mongolab.com", 41861).db("chat-de-ouf")
 	db.authenticate("team", "team")
@@ -15,12 +15,16 @@ configure do
 end
 
 post '/createaccount' do
+  puts "user test"
 	coll = settings.db.collection("users")
 	doc = {"name" => params[:name], "password" => params[:password], "email" => params[:email]}
+  puts doc
 	if (coll != nil)
+    puts "coll not nil"
 		user = coll.insert(doc)
-    session[:name] = user["name"]
-    session[:user_id] = user["_id"]
+    puts user
+    session[:name] = params[:name]
+    session[:user_id] = user
     redirect to('/messages')
 	end
 end
@@ -41,13 +45,18 @@ post '/messages' do
  
 end
 
-get '/stream', provides: 'text/event-stream' do
-  stream :keep_open do |out|
-    EventMachine::PeriodicTimer.new(20) { out << "data: \n\n" } # added
-    settings.connections << out
-    out.callback { settings.connections.delete(out) } 
-  end
-end
+#get '/stream', provides: 'text/event-stream' do
+ # stream :keep_open do |out|
+  #  i = 0
+   # timer = EventMachine::PeriodicTimer.new(1) do
+    #  timer.cancel if out.closed?
+     # i += 1
+      #out.puts i
+    #end
+  #end
+#end
+
+
 
 post '/' do
   coll = settings.db.collection("users")
