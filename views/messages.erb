@@ -137,14 +137,14 @@ body{
     </script>
   <script>
   // reading
-  //var es = new EventSource('/stream');
-  //es.onmessage = function(e) { if (e.data != '') $('#chat').append(e.data + "\n") }; 
+  var es = new EventSource('/stream');
+  es.onmessage = function(e) { if (e.data != '') $('#chat').append(e.data + "\n") }; 
 
-  //function bonjour(){
+  function bonjour(){
 
-   //alert('bonjour a tous');
+   alert('bonjour a tous');
 
-   //}
+   }
   
 </script>
 </head>

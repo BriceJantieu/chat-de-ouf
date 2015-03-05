@@ -2,7 +2,7 @@ require 'sinatra'
 require 'mongo'
 require 'rubygems'
 require 'date'
-
+require 'sinatra/streaming'
 include Mongo
 
   set server: 'thin', connections: []
@@ -59,16 +59,18 @@ post '/logout' do
   redirect to('/')
 
  end
-#get '/stream', provides: 'text/event-stream' do
- # stream :keep_open do |out|
-  #  i = 0
-   # timer = EventMachine::PeriodicTimer.new(1) do
-    #  timer.cancel if out.closed?
-     # i += 1
-      #out.puts i
-    #end
-  #end
-#end
+
+get '/stream', provides: 'text/event-stream' do
+  puts "stream"
+  stream :keep_open do |out|
+    i = 0
+    timer = EventMachine::PeriodicTimer.new(1) do
+      timer.cancel if out.closed?
+      i += 1
+      out.puts i rescue ''
+    end
+  end
+end
 
 
 
