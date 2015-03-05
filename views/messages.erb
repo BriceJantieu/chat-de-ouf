@@ -3,6 +3,8 @@
 
 <head>
 
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
   <meta charset="UTF-8">
 
   <title>Chat de ouf messages</title>
@@ -137,14 +139,30 @@ body{
     </script>
   <script>
   // reading
-  var es = new EventSource('/stream');
-  es.onmessage = function(e) { if (e.data != '') $('#chat').append(e.data + "\n") }; 
 
-  function bonjour(){
+  function charger(){
 
-   alert('bonjour a tous');
+    setInterval( function(){
+      $.getJSON( "/messagej", function(data) {
+        var items = [];
+        var tabledata = "";
+        $.each( data, function( key, val ) {
+          tabledata += "<tr>";
+          tabledata += "<td>" + val.name + "</td>";
+          tabledata += "<td>" + val.datetime + "</td>";
+          tabledata += "<td>" + val.content + "</td>";
+          tabledata += "</tr>";
+        });
+        var table = document.getElementById("myTable");
+        table.innerHTML = tabledata;
+      });
 
-   }
+        
+    }, 5000); // on exécute le chargement toutes les 5 secondes
+
+}
+
+charger();
   
 </script>
 </head>
@@ -159,9 +177,10 @@ body{
         <input type='submit' value="Logout" class="btdeco"  />
       </form>
   <div class="chat">
-     
+     <pre id='chat'></pre>
     <div class="messages" style="">
-       <table>
+      <div id="id01"></div>
+       <table id="myTable">
         <% messages.each do |msg| %>
           <tr>
             <td><%= msg["name"] %></td>

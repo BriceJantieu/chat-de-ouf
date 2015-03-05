@@ -3,6 +3,8 @@ require 'mongo'
 require 'rubygems'
 require 'date'
 require 'sinatra/streaming'
+require 'json'
+
 include Mongo
 
   set server: 'thin', connections: []
@@ -61,15 +63,23 @@ post '/logout' do
  end
 
 get '/stream', provides: 'text/event-stream' do
-  puts "stream"
   stream :keep_open do |out|
     i = 0
     timer = EventMachine::PeriodicTimer.new(1) do
       timer.cancel if out.closed?
-      i += 1
-      out.puts i rescue ''
+      redirect to('/messages') rescue ''
     end
   end
+end
+
+get '/messagej' do
+  dbmessages = settings.db.collection("messages")
+  affichage = []
+  dbmessages.find.each {|message| 
+    message["datetime"] = formatDate(message["datetime"])
+    affichage << message}
+  affichage.to_json
+
 end
 
 
