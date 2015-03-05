@@ -75,7 +75,7 @@ end
 get '/messagej' do
   dbmessages = settings.db.collection("messages")
   affichage = []
-  dbmessages.find.each {|message| 
+  dbmessages.find({}, :sort => 'datetime').each {|message| 
     message["datetime"] = formatDate(message["datetime"])
     affichage << message}
   affichage.to_json
@@ -115,7 +115,7 @@ end
 get '/messages' do 
   dbmessages = settings.db.collection("messages")
   affichage = []
-  dbmessages.find.each {|message| 
+  dbmessages.find({}, :sort => 'datetime').each {|message| 
     message["datetime"] = formatDate(message["datetime"])
     affichage << message}
   erb :messages, :locals => {:messages => affichage}
