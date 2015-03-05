@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 gem 'sinatra'
 gem 'mongo'
-gem 'bson_ext'
+gem 'bson_ext', '~> 1.12.0'
 ruby '2.0.0'
